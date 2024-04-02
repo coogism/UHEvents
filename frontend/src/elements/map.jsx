@@ -40,7 +40,7 @@ export default class UHMap extends React.Component {
     this.state = {
       lat: 29.721150,
       lng: -95.343007,
-      zoom: 16.5,
+      zoom: 16,
     };
   }
 
@@ -51,11 +51,16 @@ export default class UHMap extends React.Component {
   render() {
     const position = [this.state.lat, this.state.lng];
 
+    const key = 'NlqVQVaYotWw1C9mjheO';
+    const url = `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${key}`
+
     return (
       <MapContainer center={position} zoom={this.state.zoom} scrollWheelZoom={true} style={{ height: "100vh" }}>
         <TileLayer
           // attribution="Google Maps"
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+          url={url}
+          // minZoom={1}
+          // zoomOffset={-1}
         />
         
 
