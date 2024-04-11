@@ -10,9 +10,9 @@ events_url = "https://getinvolved.uh.edu/api/discovery/event/search"
 @app.route("/")
 def index():
     x = requests.get(events_url)
-    print(x.json())
+    return x.json()
 
-    
+
 
 if __name__ == "__main__":
     serve(app, host="0.0.0.0", port=8080)
