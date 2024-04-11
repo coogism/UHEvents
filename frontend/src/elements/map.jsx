@@ -1,5 +1,7 @@
+import "../App.css"
+
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, GeoJSON, Marker } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Tooltip } from 'react-leaflet'
 
 import features from "../jsons/features.json"
 
@@ -14,6 +16,8 @@ import L from "leaflet"
 // map.setView([-95.343007, 29.721150], 14.8)
 
 const position = [29.721150, -95.343007]
+
+// const customized_tooltip = stylecom
 
 const district_colors = {
   Central: "#EDAA00",
@@ -34,13 +38,28 @@ const setColor = ({ properties }) => {
   };
 };
 
+const centerPts = []
+
+features.features.map(feature => {
+  if (feature.geometry.type == "Polygon" && feature.properties.label != undefined && feature.properties.district != "Residential") {
+    // console.log(feature.geometry.coordinates)
+    const bounds = L.latLngBounds(feature.geometry.coordinates)
+
+    console.log(bounds.getCenter())
+    
+    centerPts.push([bounds.getCenter(), feature.properties])
+  }
+})
+
+// conosl
+
 export default class UHMap extends React.Component {
   constructor() {
     super();
     this.state = {
       lat: 29.721150,
       lng: -95.343007,
-      zoom: 16,
+      zoom: 15.5,
     };
   }
 
@@ -59,12 +78,21 @@ export default class UHMap extends React.Component {
         <TileLayer
           // attribution="Google Maps"
           url={url}
-          // minZoom={1}
-          // zoomOffset={-1}
+        // minZoom={1}
+        // zoomOffset={-1}
         />
-        
+
 
         <GeoJSON data={features} style={setColor} />
+
+        {centerPts.map(pt =>
+          <Marker position={[pt[0].lng, pt[0].lat]} >
+            {/* <Popup>Popup for Marker</Popup> */}
+            <Tooltip className="location-tips" direction="center" offset={[-10, 30]} opacity={1} permanent>
+              {pt[1].label}
+            </Tooltip>
+          </Marker>  
+        )}
 
       </MapContainer>
     );
