@@ -3,6 +3,7 @@ npm i
 to install all dependencies for your React app
 
 =========================================================
+
 Writing this out incase anyone is running into errors running UHEvents flask environment
 
 You will need to activate a virtual environment to run flask. First, cd into your backend folder
