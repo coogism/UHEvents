@@ -1,0 +1,17 @@
+.search-bar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 500;
+
+    border: none;
+    background-color: white;
+
+    border-radius: 30px;
+}
+
+.search-bar-icon {
+    padding: 8px;
+    
+
+}
