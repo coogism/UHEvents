@@ -9,7 +9,7 @@ export default function ListBar({ onClick }) {
             <IconButton onClick={onClick} className='search-bar'
                 sx={{position: 'absolute', backgroundColor: 'white' }}
             >
-                <FormatListBulletedIcon className='search-bar-icon' />
+                <FormatListBulletedIcon className='search-bar-icon'/>
             </IconButton>
         </div>
     )
