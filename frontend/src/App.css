@@ -10,12 +10,12 @@
   position: relative; /* Ensure relative positioning for absolute positioning of sidebar */
 }
 
-.toggle-button {
+/* .toggle-button {
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 999; /* Set a high z-index to ensure the button is above the sidebar */
-}
+  z-index: 999; Set a high z-index to ensure the button is above the sidebar */
+/* } */
 
 .sidebar {
   position: absolute;

@@ -1,7 +1,7 @@
 import "../App.css"
 
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Tooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, Marker, Tooltip } from 'react-leaflet'
 
 import features from "../jsons/features.json"
 
@@ -15,7 +15,7 @@ import L from "leaflet"
 
 // map.setView([-95.343007, 29.721150], 14.8)
 
-const position = [29.721150, -95.343007]
+// const position = [29.721150, -95.343007]
 
 // const customized_tooltip = stylecom
 
@@ -40,12 +40,12 @@ const setColor = ({ properties }) => {
 
 const centerPts = []
 
-features.features.map(feature => {
-  if (feature.geometry.type == "Polygon" && feature.properties.label != undefined && feature.properties.district != "Residential") {
+features.features.forEach(feature => {
+  if (feature.geometry.type === "Polygon" && feature.properties.label !== undefined && feature.properties.district !== "Residential") {
     // console.log(feature.geometry.coordinates)
     const bounds = L.latLngBounds(feature.geometry.coordinates)
 
-    console.log(bounds.getCenter())
+    // console.log(bounds.getCenter())
     
     centerPts.push([bounds.getCenter(), feature.properties])
   }
@@ -74,7 +74,7 @@ export default class UHMap extends React.Component {
     const url = `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${key}`
 
     return (
-      <MapContainer center={position} zoom={this.state.zoom} scrollWheelZoom={true} style={{ height: "100vh" }}>
+      <MapContainer center={position} zoomControl={false} zoom={this.state.zoom} scrollWheelZoom={true} style={{ height: "100vh" }}>
         <TileLayer
           // attribution="Google Maps"
           url={url}
