@@ -46,7 +46,7 @@ features.features.forEach(feature => {
     const bounds = L.latLngBounds(feature.geometry.coordinates)
 
     // console.log(bounds.getCenter())
-    
+
     centerPts.push([bounds.getCenter(), feature.properties])
   }
 })
@@ -64,7 +64,6 @@ export default class UHMap extends React.Component {
   }
 
   componentDidMount() {
-
   }
 
   render() {
@@ -91,7 +90,7 @@ export default class UHMap extends React.Component {
             <Tooltip className="location-tips" direction="center" offset={[-10, 30]} opacity={1} permanent>
               {pt[1].label}
             </Tooltip>
-          </Marker>  
+          </Marker>
         )}
 
       </MapContainer>
