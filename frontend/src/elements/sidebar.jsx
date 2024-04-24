@@ -15,14 +15,16 @@ import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
 import api from './api';
 
+import moment from "moment"
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'left',
   color: theme.palette.text.secondary,
-  width: 360,
-  maxWidth: 400,
+  width: 400,
+  maxWidth: 500,
   borderRadius: 0,
   
 }));
@@ -33,8 +35,8 @@ const ItemOrganizer = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'left',
   color: theme.palette.text.secondary,
-  width: 360,
-  maxWidth: 400,
+  width: 400,
+  maxWidth: 500,
   borderRadius: 0,
 }));
 
@@ -57,7 +59,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       <List sx={{
         // width: '400px',
-        maxWidth: 390,
+        // maxWidth: 390,
         bgcolor: 'background.paper',
         position: 'relative',
         overflowY: 'auto',
@@ -89,6 +91,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             imagePath = `https://se-images.campuslabs.com/clink/images/${event.imagePath}?preset=med-w`
           }
 
+          const momentConvert = moment(event.startsOn).utcOffset("-06:00")
+          const dayName = momentConvert.format('dddd, MMM Do h:mmA')
+
+          console.log(dayName)
+
           return (
             <li key={index} className='stack-item'>
               <a href='#'>
@@ -96,11 +103,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   <div>
                     <h3>{event.name}</h3>
 
-                    <div className='item-info'><CalendarMonthIcon /><span>Event Date</span></div>
-                    <div className='item-info'><LocationOnIcon /><span>Event Location</span></div>
+                    <div className='item-info'><CalendarMonthIcon /><span>{dayName}</span></div>
+                    <div className='item-info'><LocationOnIcon /><span>{event.location}</span></div>
                   </div>
 
-                  <img height={"90px"} style={{ borderRadius: "10px" }} src={imagePath}></img>
+                  <img alt="event image" height={"90px"} style={{ borderRadius: "10px" }} src={imagePath}></img>
 
                 </Item>
 
