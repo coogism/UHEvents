@@ -20,7 +20,7 @@ function App() {
     <div>
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}/>
       <ListBar onClick={toggleSidebar}></ListBar>
-      <MapElement></MapElement>
+      <MapElement/>
     </div>
   );
 }

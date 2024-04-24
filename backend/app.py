@@ -1,16 +1,27 @@
 from flask import Flask
+from flask_cors import CORS, cross_origin
+
 from waitress import serve
 
+import datetime
 import requests
 
 app = Flask(__name__)
 
-events_url = "https://getinvolved.uh.edu/api/discovery/event/search"
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-@app.route("/")
-def index():
-    x = requests.get(events_url)
-    return x.json()
+events_url = "https://getinvolved.uh.edu/api/discovery/event/search?endsAfter={isoDate}&orderByField=endsOn&orderByDirection=ascending&status=Approved&take=15&query=&skip={skipPage}"
+
+@app.route("/events/<int:page>", methods=['GET'])
+def get_events(page : int):
+    print(page)
+    x = requests.get(events_url.format(isoDate = datetime.datetime.now().isoformat(), skipPage = (page - 1) * 15))
+
+    events = x.json()["value"]
+
+    print(x.json()["value"])
+    return x.json()["value"]
 
 
 
