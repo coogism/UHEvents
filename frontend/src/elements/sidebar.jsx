@@ -1,15 +1,19 @@
 // Sidebar.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import './css/sidebar.css'; // Import your CSS file for styling
+import '../index.css'
+
 import SearchBar from './search';
-import { Stack, Rating } from '@mui/material';
+import { List, Rating } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 import Paper from '@mui/material/Paper';
+import { useEffect } from 'react';
+import api from './api';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -20,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
   width: 360,
   maxWidth: 400,
   borderRadius: 0,
+  
 }));
 
 const ItemOrganizer = styled(Paper)(({ theme }) => ({
@@ -34,50 +39,83 @@ const ItemOrganizer = styled(Paper)(({ theme }) => ({
 }));
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const [events, setEvents] = useState([])
+
+  useEffect(() => {
+    api.get("/events/1").then(res => {
+      // console.log(getEvents.data)
+      setEvents(res.data)
+
+      console.log(events)
+    })
+  }, [events]);
+
   return (
     <div className={isOpen ? 'sidebar open' : 'sidebar'}>
 
       <SearchBar onToggle={toggleSidebar}></SearchBar>
 
-      <Stack spacing={2}>
-        <div className='stack-item'>
-          <Item sx={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
-            <div>
-              <h3>Event Title</h3>
+      <List sx={{
+        // width: '400px',
+        maxWidth: 390,
+        bgcolor: 'background.paper',
+        position: 'relative',
+        overflowY: 'auto',
 
-              <div className='item-info'><CalendarMonthIcon/><span>Event Date</span></div>
-              <div className='item-info'><LocationOnIcon/><span>Event Location</span></div>
-            </div>
+        scrollbarWidth: "none", // Hide the scrollbar for firefox
+        '&::-webkit-scrollbar': {
+          display: 'none', // Hide the scrollbar for WebKit browsers (Chrome, Safari, Edge, etc.)
+        },
+        '&-ms-overflow-style:': {
+          display: 'none', // Hide the scrollbar for IE
+        },
 
-            <img height={"90px"} style={{borderRadius: "10px"}} src='/spirituality.jpg'></img>
+        '& ul': { padding: 0 },
+      }}
+        subheader={<li />}
+      >
+        {events.map((event, index) => {
+          let themeKey = event.theme.toLowerCase()
 
-          </Item>
+          if (themeKey === "communityservice") {
+            themeKey = "service"
+          } else if (themeKey === "thoughtfullearning") {
+            themeKey = "learning"
+          }
 
-          <ItemOrganizer>
-            <div style={{marginTop: 4, fontWeight: "bold"}}>Event Organizer</div>
-            <Rating name="read-only" value={2} readOnly />
-          </ItemOrganizer>
-        </div>
+          let imagePath = `https://static.campuslabsengage.com/discovery/images/events/${themeKey}.jpg`
 
-        <div className='stack-item'>
-          <Item sx={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
-            <div>
-              <h3>Event Title</h3>
+          if (event.imagePath) {
+            imagePath = `https://se-images.campuslabs.com/clink/images/${event.imagePath}?preset=med-w`
+          }
 
-              <div className='item-info'><CalendarMonthIcon/><span>Event Date</span></div>
-              <div className='item-info'><LocationOnIcon/><span>Event Location</span></div>
-            </div>
+          return (
+            <li key={index} className='stack-item'>
+              <a href='#'>
+                <Item sx={{ display: "flex", justifyContent: "space-between", alignItems: 'center' }}>
+                  <div>
+                    <h3>{event.name}</h3>
 
-            <img height={"90px"} style={{borderRadius: "10px"}} src='/spirituality.jpg'></img>
+                    <div className='item-info'><CalendarMonthIcon /><span>Event Date</span></div>
+                    <div className='item-info'><LocationOnIcon /><span>Event Location</span></div>
+                  </div>
 
-          </Item>
+                  <img height={"90px"} style={{ borderRadius: "10px" }} src={imagePath}></img>
 
-          <ItemOrganizer>
-            <div style={{marginTop: 4, fontWeight: "bold"}}>Event Organizer</div>
-            <Rating name="read-only" value={2} readOnly />
-          </ItemOrganizer>
-        </div>
-      </Stack>
+                </Item>
+
+                <ItemOrganizer>
+                  <div style={{ marginTop: 4, fontWeight: "bold" }}>Event Organizer</div>
+                  <Rating name="read-only" value={5} readOnly />
+                </ItemOrganizer>
+              </a>
+            </li >
+          )
+        })}
+
+
+
+      </List>
     </div>
   );
 };
