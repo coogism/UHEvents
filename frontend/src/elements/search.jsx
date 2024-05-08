@@ -11,7 +11,7 @@ export default function SearchBar({ onToggle }) {
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginTop: "10px", marginBottom: "10px" }}
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 380, marginTop: "10px", marginBottom: "10px" }}
     >
       <IconButton onClick={onToggle} sx={{ p: '10px' }} aria-label="menu">
         <MenuIcon />

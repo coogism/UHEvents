@@ -5,7 +5,7 @@
   left: 0;
   top: 0;
   height: 100vh;
-  width: 450px;
+  width: 400px;
   /* Adjust width as needed */
   background-color: #fff;
   border-right: 1px solid #ddd;
@@ -55,6 +55,13 @@
   margin-bottom: 10px;
 }
 
+.stack-item a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .stack-item .item-info {
   display: flex;
   flex-direction: row;
@@ -63,4 +70,16 @@
 
 .stack-item .item-info span {
   margin-left: 5px;
+}
+
+.organizerInfo {
+  display: flex;
+  align-items: center;
+}
+
+.organizerInfo .orgPfp {
+  width: 50px;
+  height: 50px;
+  margin-right: 7px;
+  border-radius: 50%;
 }

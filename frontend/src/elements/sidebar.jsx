@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import api from './api';
 
 import moment from "moment"
+import { getImage } from '../utils/imagePath';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -23,10 +24,10 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'left',
   color: theme.palette.text.secondary,
-  width: 400,
+  width: 370,
   maxWidth: 500,
   borderRadius: 0,
-  
+
 }));
 
 const ItemOrganizer = styled(Paper)(({ theme }) => ({
@@ -35,12 +36,12 @@ const ItemOrganizer = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'left',
   color: theme.palette.text.secondary,
-  width: 400,
+  width: 370,
   maxWidth: 500,
   borderRadius: 0,
 }));
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, onSelectEvent }) => {
   const [events, setEvents] = useState([])
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       // console.log(getEvents.data)
       setEvents(res.data)
 
-      console.log(events)
+      // console.log(events)
     })
   }, [events]);
 
@@ -64,6 +65,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         position: 'relative',
         overflowY: 'auto',
 
+        width: "100%",
+
         scrollbarWidth: "none", // Hide the scrollbar for firefox
         '&::-webkit-scrollbar': {
           display: 'none', // Hide the scrollbar for WebKit browsers (Chrome, Safari, Edge, etc.)
@@ -77,28 +80,18 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         subheader={<li />}
       >
         {events.map((event, index) => {
-          let themeKey = event.theme.toLowerCase()
-
-          if (themeKey === "communityservice") {
-            themeKey = "service"
-          } else if (themeKey === "thoughtfullearning") {
-            themeKey = "learning"
-          }
-
-          let imagePath = `https://static.campuslabsengage.com/discovery/images/events/${themeKey}.jpg`
-
-          if (event.imagePath) {
-            imagePath = `https://se-images.campuslabs.com/clink/images/${event.imagePath}?preset=med-w`
-          }
+          const imagePath = getImage(event)
 
           const momentConvert = moment(event.startsOn).utcOffset("-06:00")
           const dayName = momentConvert.format('dddd, MMM Do h:mmA')
 
-          console.log(dayName)
-
+          const organizerPfpLink = `https://se-images.campuslabs.com/clink/images/${event.organizationProfilePicture}?preset=small-sq`
+          
           return (
             <li key={index} className='stack-item'>
-              <a href='#'>
+              <a href='#' onClick={() => {
+                onSelectEvent(event)
+              }}>
                 <Item sx={{ display: "flex", justifyContent: "space-between", alignItems: 'center' }}>
                   <div>
                     <h3>{event.name}</h3>
@@ -111,9 +104,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
                 </Item>
 
-                <ItemOrganizer>
-                  <div style={{ marginTop: 4, fontWeight: "bold" }}>Event Organizer</div>
-                  <Rating name="read-only" value={5} readOnly />
+                <ItemOrganizer className='organizerInfo'>
+                  <img src={organizerPfpLink} alt="" className="orgPfp" />
+                  <div>
+                    <div style={{ marginTop: 4, fontWeight: "bold" }}>{event.organizationName}</div>
+                    <Rating className='orgRating' name="read-only" value={5} readOnly />
+                  </div>
                 </ItemOrganizer>
               </a>
             </li >

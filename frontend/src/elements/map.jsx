@@ -58,7 +58,7 @@ export default class UHMap extends React.Component {
     super();
     this.state = {
       lat: 29.721150,
-      lng: -95.343007,
+      lng: -95.35157,
       zoom: 15.5,
     };
   }

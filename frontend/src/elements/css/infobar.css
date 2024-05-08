@@ -1,0 +1,169 @@
+p {
+    font-size: 0.87rem;
+}
+
+strong {
+    font-size: 0.9rem;
+}
+
+.infoBar {
+    position: absolute;
+    left: 420px;
+    top: 50%;
+    /* left: 50%; */
+    transform: translate(0, -50%);
+    height: 95vh;
+    width: 350px;
+    /* Adjust width as needed */
+    background-color: #f2f2f2;
+    border-right: 1px solid #ddd;
+    transition: transform 0.3s ease;
+    /* transform: translateX(-100%); */
+
+    display: flex;
+    flex-direction: column;
+
+    /* justify-content: center; */
+    align-items: center;
+
+    z-index: 500;
+
+    border-radius: 16px;
+
+    overflow: auto;
+}
+
+.infoBar .thumbnail img {
+    width: 100%;
+    height: 210px;
+}
+
+.infoBar .basicInfo {
+    width: 85%;
+}
+
+.infoBar .basicInfo h1 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.dateRange,
+.location {
+    width: 70%;
+    margin-top: 15px;
+}
+
+.dateRange strong,
+.location strong {
+    margin-bottom: 5px;
+}
+
+.dateRange .calender-icon,
+.location .location-icon {
+    position: absolute;
+    left: 7%;
+}
+
+.dateRange .rangeText p {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.dateRange .rangeText {
+    margin-bottom: 15px;
+}
+
+.dateRange .rangeText,
+.location p {
+    line-height: 1.1;
+    margin-top: 10px;
+}
+
+.infoBar .divider {
+    height: 2px;
+    background: transparent;
+    width: 100%;
+    border-bottom: 1px solid #dadce0;
+}
+
+.infoBar .description {
+    width: 85%;
+    max-height: 95px;
+    overflow-y: auto;
+    line-height: 1.5;
+
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.infoBar .organizers {
+    margin-top: 15px;
+    width: 85%;
+}
+
+.orgCompact span {
+    color: black;
+}
+
+.orgCompact {
+    display: flex;
+    flex-direction: column;
+}
+
+.orgCompact .orgRating {
+    width: 50px;
+}
+
+.orgItem {
+    display: flex;
+    align-items: center;
+}
+
+.orgItem:hover {
+    cursor: pointer;
+}
+
+.orgItem .orgPfp {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.signUpButton {
+    width: 80%;
+    height: 40px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(38, 111, 193);
+
+    margin-bottom: 15px;
+    text-decoration: none;
+}
+
+.signUpButton span {
+    padding: 10px;
+    font-weight: normal;
+    color: #fff;
+}
+
+.orgInfo .basicInfo {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.orgInfo .basicInfo .orgPfp {
+    border-radius: 50%;
+}
+
+.orgInfo .basicInfo h1 {
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
