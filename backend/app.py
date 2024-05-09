@@ -38,13 +38,18 @@ def search_events():
     query = request.args.get('query')
     page = request.args.get('page')
 
-    print(query, page)
-
+    if page == "":
+        page = 1
+     
     skipPage = (int(page) - 1) * 15
+
+    # print(skipPage)
 
     x = requests.get(events_search_url.format(isoDate = datetime.datetime.now().isoformat(), query = query, skipPage = skipPage))
 
     events = x.json()["value"]
+
+    # print(events)
 
     threads = []
 
@@ -118,7 +123,7 @@ def get_org_info(org_id : str):
         if org_got.status_code == 200:
             org_data = org_got.json()
 
-            print(org_data)
+            # print(org_data)
 
             record = { "_id": org_id,
             "name": org_data["name"],
@@ -136,11 +141,11 @@ def get_org_info(org_id : str):
 @app.route("/rate/organization", methods=["POST"])
 def rate_org():
     data = request.json
-    print(data)
+    # print(data)
     rating = data["rating"]
     org_id = data["org_id"]
 
-    print(org_id)
+    # print(org_id)
 
     record = database["organizations"].find_one({'_id' : org_id })
     if record == None:

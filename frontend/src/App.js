@@ -45,13 +45,13 @@ function App() {
   const [org, setOrg] = useState(null)
   const [ratingOrg, setRatingOrg] = useState(null)
 
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState(null)
   const [pages, setPages] = useState(1)
 
   const [searchValue, setSearchValue] = useState("")
 
   const onPageChange = (value) => {
-    setEvents([])
+    setEvents(null)
 
     setOrg(null)
     setEventLocation(null)
@@ -112,8 +112,7 @@ function App() {
 
     setSearchValue(value)
 
-    setEvents([])
-
+    setEvents(null)
     setOrg(null)
     setEventLocation(null)
     setEvent(null)
