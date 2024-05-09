@@ -1,0 +1,47 @@
+[
+    {
+        "name": "SC South",
+        "location": [
+            "-95.340797",
+            "29.720261"
+        ],
+        "meetingRooms": [
+            "Museum District",
+            "Third Ward",
+            "Space City",
+            "Bayou City",
+            "Skyline",
+            "Heights",
+            "Washington Ave.",
+            "River Oaks",
+            "Montrose District",
+            "Medical Center",
+            "Astrodome",
+            "Downtown",
+            "Midtown",
+            "Uptown",
+            "Houston",
+            "Austin",
+            "San Antonio",
+            "Corpus Christi",
+            "El Paso",
+            "Dallas",
+            "Fort Worth",
+            "Ballroom",
+            "Multipurpose",
+            "Theater"
+        ]
+    },
+    {
+        "name": "SC North",
+        "location": [
+            "-95.340652",
+            "29.720787"
+        ],
+        "meetingRooms": [
+            "Impact",
+            "Synergy",
+            "SGA Senate Chamber"
+        ]
+    }
+]
