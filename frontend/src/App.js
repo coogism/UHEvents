@@ -26,12 +26,9 @@ const getBuildingFromLocation = async (event) => {
     }
   }
 
-  console.log("time ")
-
   const res = await api.get("/location?term=" + event.location)
 
   if (res.data.length > 0) {
-    console.log(res.data[0].item)
     return res.data[0].item
   }
 }
@@ -48,9 +45,13 @@ function App() {
   const [events, setEvents] = useState(null)
   const [pages, setPages] = useState(1)
 
+  const [currentPage, setCurrentPage] = useState(1)
+
   const [searchValue, setSearchValue] = useState("")
 
   const onPageChange = (value) => {
+    setCurrentPage(value)
+
     setEvents(null)
 
     setOrg(null)
@@ -66,7 +67,6 @@ function App() {
   }
 
   const getEvents = async (newPage, newSearch) => {
-    console.log(newPage)
     api.get("/events/search?query=" + newSearch + "&page=" + (newPage || "")).then(res => {
       setEvents(res.data.events)
       getPages(res.data.total)
@@ -74,7 +74,6 @@ function App() {
   }
 
   const toggleSidebar = () => {
-    // console.log("hi")
     setIsOpen(!isOpen);
   };
 
@@ -85,7 +84,6 @@ function App() {
     setEvent(event)
 
     getBuildingFromLocation(event).then((building_data) => {
-      console.log(building_data)
       setEventLocation(building_data)
     })
   }
@@ -102,7 +100,7 @@ function App() {
   }
   
   const onRating = () => {
-    getEvents()
+    getEvents(currentPage)
   }
 
   const onSearch = (value) => {
@@ -117,7 +115,7 @@ function App() {
     setEventLocation(null)
     setEvent(null)
 
-    getEvents("", value)
+    getEvents(currentPage, value)
   }
 
   useEffect(() => {
