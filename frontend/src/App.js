@@ -100,7 +100,7 @@ function App() {
   }
   
   const onRating = () => {
-    getEvents(currentPage)
+    getEvents(currentPage, searchValue)
   }
 
   const onSearch = (value) => {
