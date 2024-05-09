@@ -1,6 +1,6 @@
 import threading
 
-from flask import Flask
+from flask import Flask, request, jsonify, abort
 from flask_cors import CORS, cross_origin
 
 from waitress import serve
@@ -27,6 +27,10 @@ def saveEventToDatabase(event):
     record = database["events"].find_one({'id' : event["id"] })
     if record == None:
         database["events"].insert_one(event)
+
+    for orgInfo in event["organizerInfos"]:
+        # print(orgInfo["id"])
+        orgInfo["ratings"] = get_org_info(str(orgInfo["id"]))["ratings"]
 
 @app.route("/events/<int:page>", methods=['GET'])
 def get_events(page : int):
@@ -62,7 +66,7 @@ def get_orgs_from_event(event_id : str):
     return x.json()
 
 @app.route("/organization/<string:org_id>", methods=["GET"])
-def get_org_ratings(org_id : str):
+def get_org_info(org_id : str):
     record = database["organizations"].find_one({'_id' : org_id })
     
     if record == None:
@@ -86,6 +90,32 @@ def get_org_ratings(org_id : str):
             database["organizations"].insert_one(record)
 
     return record
+
+@app.route("/rate/organization", methods=["POST"])
+def rate_org():
+    data = request.json
+    print(data)
+    rating = data["rating"]
+    org_id = data["org_id"]
+
+    print(org_id)
+
+    record = database["organizations"].find_one({'_id' : org_id })
+    if record == None:
+        abort(404)
+
+    if rating == None:
+        abort(404)
+
+    if type(rating) is int:
+        if rating > 0 and rating <= 5:
+            record["ratings"].append({
+                "rating" : rating
+            })
+            database["organizations"].replace_one({'_id': record['_id']}, record)
+
+
+    return jsonify(success=True)
 
 if __name__ == "__main__":
     print("server started")

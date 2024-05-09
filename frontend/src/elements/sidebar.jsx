@@ -18,6 +18,21 @@ import api from './api';
 import moment from "moment"
 import { getImage } from '../utils/imagePath';
 
+const getAvgRating = (ratingsList) => {
+  console.log(ratingsList)
+
+  if (ratingsList.length == 0) return 0;
+
+  let sum = 0
+  ratingsList.forEach(rating_data => {
+      sum += rating_data.rating
+  });
+
+  console.log(sum)
+
+  return sum/ratingsList.length
+}
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -87,6 +102,15 @@ const Sidebar = ({ isOpen, toggleSidebar, onSelectEvent }) => {
 
           const organizerPfpLink = `https://se-images.campuslabs.com/clink/images/${event.organizationProfilePicture}?preset=small-sq`
           
+          let mainOrgInfo
+          for (let index = 0; index < event.organizerInfos.length; index++) {
+            const element = event.organizerInfos[index];
+            if (element.id == event.organizationId) {
+              mainOrgInfo = element;
+              break;
+            }
+          }
+
           return (
             <li key={index} className='stack-item'>
               <a href='#' onClick={() => {
@@ -108,7 +132,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onSelectEvent }) => {
                   <img src={organizerPfpLink} alt="" className="orgPfp" />
                   <div>
                     <div style={{ marginTop: 4, fontWeight: "bold" }}>{event.organizationName}</div>
-                    <Rating className='orgRating' name="read-only" value={5} readOnly />
+                    <Rating className='orgRating' name="read-only" value={getAvgRating(mainOrgInfo.ratings)} readOnly />
                   </div>
                 </ItemOrganizer>
               </a>

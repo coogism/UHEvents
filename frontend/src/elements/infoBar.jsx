@@ -26,8 +26,22 @@ const OrgItem = styled(Paper)(({ theme }) => ({
     marginTop: 5
 }));
 
+const getAvgRating = (ratingsList) => {
+    console.log(ratingsList)
 
-export default function InfoBar({ selectedEvent, selectedOrg, setCurrentOrg }) {
+    if (ratingsList.length == 0) return 0;
+
+    let sum = 0
+    ratingsList.forEach(rating_data => {
+        sum += rating_data.rating
+    });
+
+    console.log(sum)
+
+    return sum/ratingsList.length
+}
+
+export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrentOrg, setOrgRating }) {
     const imagePath = getImage(selectedEvent)
 
     const momentStart = moment(selectedEvent?.startsOn).utcOffset("-06:00")
@@ -42,18 +56,33 @@ export default function InfoBar({ selectedEvent, selectedOrg, setCurrentOrg }) {
         const OrganizerPfpLink = `https://se-images.campuslabs.com/clink/images/${selectedOrg?.profilePicture}?preset=small-sq`
 
         return (
-            <div className="infoBar orgInfo">
+            <div className={isOpen ? 'infoBar orgInfo' : 'infoBar orgInfo closed'}>
                 <div className="basicInfo">
                     <img className="orgPfp" src={OrganizerPfpLink} />
                     <h1>{selectedOrg.name}</h1>
                 </div>
+
+                <div className="divider" />
+
+                <div className="reviewSum">
+                    <div className="reviewStars">
+                        <Rating name="read-only" value={getAvgRating(selectedOrg.ratings)} precision={0.1} readOnly />
+                        <p style={{margin: 0}}>({selectedOrg.ratings.length} rating{selectedOrg.ratings.length == 1 ? "" : "s"})</p>
+                    </div>
+
+                    <button onClick={() => setOrgRating(selectedOrg)} className="reviewBtn">
+                        <span>Leave a review</span>
+                    </button>
+                </div>
             </div>
+
+
         )
     }
 
     return (
         (selectedEvent &&
-            <div className="infoBar">
+            <div className={isOpen ? 'infoBar' : 'infoBar closed'}>
                 <div className="thumbnail">
                     <img src={imagePath} />
                 </div>
@@ -109,7 +138,7 @@ export default function InfoBar({ selectedEvent, selectedOrg, setCurrentOrg }) {
                                             <img className="orgPfp" src={OrganizerPfpLink} />
                                             <div className="orgCompact">
                                                 <span>{orgData.name}</span>
-                                                <Rating name="read-only" value={5} readOnly />
+                                                <Rating name="read-only" value={getAvgRating(orgData.ratings)} readOnly />
                                             </div>
                                         </OrgItem>
                                     </a>
