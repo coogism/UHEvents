@@ -55,11 +55,15 @@
   margin-bottom: 10px;
 }
 
-.stack-item a {
+.stack-item button {
+  background: transparent;
+  border: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  cursor: pointer;
 }
 
 .stack-item .item-info {

@@ -4,14 +4,14 @@ import { getImage } from "../utils/imagePath"
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import { Rating } from '@mui/material';
 
 import moment from "moment";
 
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import { useEffect, useState } from "react";
-import api from "./api";
 
 const OrgItem = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -27,18 +27,14 @@ const OrgItem = styled(Paper)(({ theme }) => ({
 }));
 
 const getAvgRating = (ratingsList) => {
-    console.log(ratingsList)
-
-    if (ratingsList.length == 0) return 0;
+    if (ratingsList.length === 0) return 0;
 
     let sum = 0
     ratingsList.forEach(rating_data => {
         sum += rating_data.rating
     });
 
-    console.log(sum)
-
-    return sum/ratingsList.length
+    return sum / ratingsList.length
 }
 
 export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrentOrg, setOrgRating }) {
@@ -50,15 +46,19 @@ export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrent
     const dayStart = momentStart.format('dddd, MMM Do h:mmA')
     const dayEnd = momentEnd.format('dddd, MMM Do h:mmA')
 
-    console.log(selectedEvent)
-
     if (selectedOrg) {
         const OrganizerPfpLink = `https://se-images.campuslabs.com/clink/images/${selectedOrg?.profilePicture}?preset=small-sq`
 
         return (
             <div className={isOpen ? 'infoBar orgInfo' : 'infoBar orgInfo closed'}>
+                <div className="closingWrap">
+                    <button className="backBtn" onClick={() => { setCurrentOrg(null); }}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </button>
+                </div>
+
                 <div className="basicInfo">
-                    <img className="orgPfp" src={OrganizerPfpLink} />
+                    <img alt="organization pfp" className="orgPfp" src={OrganizerPfpLink} />
                     <h1>{selectedOrg.name}</h1>
                 </div>
 
@@ -67,7 +67,7 @@ export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrent
                 <div className="reviewSum">
                     <div className="reviewStars">
                         <Rating name="read-only" value={getAvgRating(selectedOrg.ratings)} precision={0.1} readOnly />
-                        <p style={{margin: 0}}>({selectedOrg.ratings.length} rating{selectedOrg.ratings.length == 1 ? "" : "s"})</p>
+                        <p style={{ margin: 0 }}>({selectedOrg.ratings.length} rating{selectedOrg.ratings.length === 1 ? "" : "s"})</p>
                     </div>
 
                     <button onClick={() => setOrgRating(selectedOrg)} className="reviewBtn">
@@ -84,7 +84,7 @@ export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrent
         (selectedEvent &&
             <div className={isOpen ? 'infoBar' : 'infoBar closed'}>
                 <div className="thumbnail">
-                    <img src={imagePath} />
+                    <img alt="event thumbnail" src={imagePath} />
                 </div>
 
                 <div className="basicInfo">
@@ -116,7 +116,7 @@ export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrent
                     <div dangerouslySetInnerHTML={{ __html: selectedEvent.description }} />
                 </div>
 
-                <a href="https://getinvolved.uh.edu/account/login?returnUrl=/event/10142455" target="_blank" className="signUpButton">
+                <a href="https://getinvolved.uh.edu/account/login?returnUrl=/event/10142455" rel="noreferrer" target="_blank" className="signUpButton">
                     <div>
                         <span>Sign In (RSVP)</span>
                     </div>
@@ -133,15 +133,15 @@ export default function InfoBar({ isOpen, selectedEvent, selectedOrg, setCurrent
                                 const OrganizerPfpLink = `https://se-images.campuslabs.com/clink/images/${orgData?.profilePicture}?preset=small-sq`
 
                                 return (
-                                    <a onClick={() => { setCurrentOrg(orgData) }}>
+                                    <button onClick={() => { setCurrentOrg(orgData) }}>
                                         <OrgItem className="orgItem">
-                                            <img className="orgPfp" src={OrganizerPfpLink} />
+                                            <img alt="org pfp" className="orgPfp" src={OrganizerPfpLink} />
                                             <div className="orgCompact">
                                                 <span>{orgData.name}</span>
-                                                <Rating name="read-only" value={getAvgRating(orgData.ratings)} readOnly />
+                                                <Rating name="read-only" value={getAvgRating(orgData.ratings)} readOnly precision={0.1} />
                                             </div>
                                         </OrgItem>
-                                    </a>
+                                    </button>
                                 )
                             }))
                         }

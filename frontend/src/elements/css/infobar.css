@@ -115,9 +115,17 @@ strong {
     width: 50px;
 }
 
+.hostList button {
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding: 0;
+}
+
 .orgItem {
     display: flex;
     align-items: center;
+    
 }
 
 .orgItem:hover {
@@ -152,11 +160,26 @@ strong {
 }
 
 .orgInfo .basicInfo {
-    margin-top: 2rem;
+    margin-top: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.infoBar .backBtn {
+    margin-top: 15px;
+}
+
+.closingWrap {
+    width: 90%;
+}
+
+.closingWrap button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
 }
 
 .orgInfo .basicInfo .orgPfp {

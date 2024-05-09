@@ -4,19 +4,19 @@ import "./css/reviewPopup.css"
 import { useState } from 'react';
 import api from './api';
 
-export default function ReviewPopUp({ selectedOrg, setSelectOrg }) {
+export default function ReviewPopUp({ selectedOrg, setSelectOrg, onRating }) {
     const [rating, setRating] = useState(null)
 
     const onRateClick = () => {
         const org_id = selectedOrg._id
-        console.log(org_id)
+        // console.log(org_id)
 
         setSelectOrg(null)
         
         api.post("/rate/organization", {
             org_id : org_id,
             rating : rating
-        })
+        }).then(onRating)
     }
 
     if (selectedOrg) {
